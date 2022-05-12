@@ -1,0 +1,24 @@
+{
+  "name": "project-promo-p-module-4-team-8",
+  "version": "1.0.0",
+  "description": "awesome card server",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adalab/project-promo-P-module-4-team-8.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Adalab/project-promo-P-module-4-team-8/issues"
+  },
+  "homepage": "https://github.com/Adalab/project-promo-P-module-4-team-8#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1"
+  }
+}
