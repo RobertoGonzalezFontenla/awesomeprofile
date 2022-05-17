@@ -46,9 +46,15 @@ server.post('/card', (req, res) => {
     }
 });
 
-server.get('/card/:id', (req, res) => {
-  res.json('La tarjeta ha sido creada');
+server.get("/card/:id", (req, res) => {
+  const userCard = savedCards.find((card) => card.id === req.params.id);
+  res.render("card", userCard);
 });
 
-const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
+const staticServerPathWeb = "./src/public-react"; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPathWeb));
+
+const staticServerPublicCss = "./src/public-css"; // En esta carpeta ponemos los ficheros estáticos
+server.use(express.static(staticServerPublicCss));
+
+server.set("view engine", "ejs");
