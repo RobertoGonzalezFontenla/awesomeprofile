@@ -16,38 +16,48 @@ server.use(express.json(
   }
 ));
 
-const savedCards = [];
+server.set("view engine", "ejs");
+
+const savedCards = [];
 
 // Arrancamos el servidor en el puerto 3000
-const serverPort = 4000;
+const serverPort = process.env.PORT || 4000;
 server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-server.post('/card', (req, res) => {
-  if (req.body.name !== '' && req.body.email !== '' && req.body.job !== '' && req.body.phone !== '' && req.body.github !== '' && req.body.linkedin !== '' && req.body.photo !== ''){
+server.post("/card", (req, res) => {
+  if (
+    req.body.name !== "" &&
+    req.body.email !== "" &&
+    req.body.job !== "" &&
+    req.body.phone !== "" &&
+    req.body.github !== "" &&
+    req.body.linkedin !== "" &&
+    req.body.photo !== ""
+  ) {
     const newCard = {
-      ...req.body, 
+      ...req.body,
       id: uuidv4(),
-    }
+    };
     savedCards.push(newCard);
     const responseSucess = {
       success: true,
-      cardURL:
-        `http://localhost:4000/card/${newCard.id}`,
-      };
-      res.json(responseSucess);
-    } else {
-      const responseError = {
-        success: false,
-        error: 'Faltan parámetros',
-      };
-      res.json(responseError);
-    }
+      cardURL: `http://localhost:4000/card/${newCard.id}`,
+    };
+    res.json(responseSucess);
+  } else {
+    const responseError = {
+      success: false,
+      error: "Faltan parámetros",
+    };
+    res.json(responseError);
+  }
 });
 
 server.get("/card/:id", (req, res) => {
   const userCard = savedCards.find((card) => card.id === req.params.id);
+  console.log(userCard.name);
   res.render("card", userCard);
 });
 
@@ -57,4 +67,4 @@ server.use(express.static(staticServerPathWeb));
 const staticServerPublicCss = "./src/public-css"; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPublicCss));
 
-server.set("view engine", "ejs");
+
