@@ -1,8 +1,8 @@
 // Fichero src/index.js
 
 // Importamos los dos módulos de NPM necesarios para trabajar
-const express = require('express');
-const cors = require('cors');
+const express = require("express");
+const cors = require("cors");
 const DataBase = require("better-sqlite3");
 const { v4: uuidv4 } = require("uuid");
 
