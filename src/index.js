@@ -58,8 +58,9 @@ server.post("/card", (req, res) => {
 
 server.get("/card/:id", (req, res) => {
   const userCard = savedCards.find((card) => card.id === req.params.id);
-  console.log(userCard.name);
-  res.render("card", userCard);
+  if (userCard !== undefined) {
+    res.render("card", userCard);
+  }
 });
 
 const staticServerPathWeb = "./src/public-react"; // En esta carpeta ponemos los ficheros estáticos
