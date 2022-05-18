@@ -3,19 +3,19 @@
 // Importamos los dos módulos de NPM necesarios para trabajar
 const express = require('express');
 const cors = require('cors');
+const DataBase = require("better-sqlite3");
 const { v4: uuidv4 } = require("uuid");
-
 
 // Creamos el servidor
 const server = express();
 
 // Configuramos el servidor
 server.use(cors());
-server.use(express.json(
-  {
+server.use(
+  express.json({
     limit: "10mb",
-  }
-));
+  })
+);
 
 server.set("view engine", "ejs");
 
@@ -68,4 +68,8 @@ server.use(express.static(staticServerPathWeb));
 const staticServerPublicCss = "./src/public-css"; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPublicCss));
 
-
+const db = new DataBase("./src/data/dataCard.db", {
+  // con verbose le decimos que muestre en la consola todas las queries que se ejecuten
+  verbose: console.log,
+  // así podemos comprobar qué queries estamos haciendo en todo momento
+});
