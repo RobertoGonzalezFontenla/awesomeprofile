@@ -61,7 +61,7 @@ server.post("/card", (req, res) => {
     );
     const responseSucess = {
       success: true,
-      cardURL: `https://module-4-team-8.herokuapp/card/${newCard.id}`,
+      cardURL: `https://module-4-team-8.herokuapp.com/card/${newCard.id}`,
     };
     res.json(responseSucess);
   } else {
