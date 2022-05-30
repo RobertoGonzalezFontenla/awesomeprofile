@@ -1,13 +1,13 @@
 // Fichero src/index.js
 
 // Importamos los dos módulos de NPM necesarios para trabajar
-const express = require("express");
-const cors = require("cors");
-const DataBase = require("better-sqlite3");
-const { v4: uuidv4 } = require("uuid");
+const express = require('express');
+const cors = require('cors');
+const DataBase = require('better-sqlite3');
+const { v4: uuidv4 } = require('uuid');
 
 // Base de datos
-const db = new DataBase("./src/data/dataCard.db", {
+const db = new DataBase('./src/data/dataCard.db', {
   // con verbose le decimos que muestre en la consola todas las queries que se ejecuten
   verbose: console.log,
   // así podemos comprobar qué queries estamos haciendo en todo momento
@@ -19,11 +19,11 @@ const server = express();
 server.use(cors());
 server.use(
   express.json({
-    limit: "10mb",
+    limit: '10mb',
   })
 );
 
-server.set("view engine", "ejs");
+server.set('view engine', 'ejs');
 
 const savedCards = [];
 
@@ -33,21 +33,23 @@ server.listen(serverPort, () => {
   console.log(`Server listening at http://localhost:${serverPort}`);
 });
 
-server.post("/card", (req, res) => {
+server.post('/card', (req, res) => {
   if (
-    req.body.name !== "" &&
-    req.body.email !== "" &&
-    req.body.job !== "" &&
-    req.body.phone !== "" &&
-    req.body.github !== "" &&
-    req.body.linkedin !== "" &&
-    req.body.photo !== ""
+    req.body.name !== '' &&
+    req.body.email !== '' &&
+    req.body.job !== '' &&
+    req.body.phone !== '' &&
+    req.body.github !== '' &&
+    req.body.linkedin !== '' &&
+    req.body.photo !== ''
   ) {
     const newCard = {
       ...req.body,
       id: uuidv4(),
     };
-    const query = db.prepare("INSERT INTO userCard(palette, name, job, photo, phone, email, linkedin, github, uuid) VALUES (?,?,?,?,?,?,?,?,?)");
+    const query = db.prepare(
+      'INSERT INTO userCard(palette, name, job, photo, phone, email, linkedin, github, uuid) VALUES (?,?,?,?,?,?,?,?,?)'
+    );
     const result = query.run(
       newCard.palette,
       newCard.name,
@@ -67,24 +69,23 @@ server.post("/card", (req, res) => {
   } else {
     const responseError = {
       success: false,
-      error: "Faltan parámetros",
+      error: 'Faltan parámetros',
     };
     res.json(responseError);
   }
 });
 
-server.get("/card/:id", (req, res) => {
+server.get('/card/:id', (req, res) => {
   const query = db.prepare('SELECT * FROM userCard WHERE uuid = ?');
   const userCard = query.get(req.params.id);
   if (userCard !== undefined) {
-    res.render("card", userCard);
+    res.render('card', userCard);
   }
 });
 
-
 // Servidores de estáticos
-const staticServerPathWeb = "./src/public-react"; // En esta carpeta ponemos los ficheros estáticos
+const staticServerPathWeb = './src/public-react'; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPathWeb));
 
-const staticServerPublicCss = "./src/public-css"; // En esta carpeta ponemos los ficheros estáticos
+const staticServerPublicCss = './src/public-css'; // En esta carpeta ponemos los ficheros estáticos
 server.use(express.static(staticServerPublicCss));
